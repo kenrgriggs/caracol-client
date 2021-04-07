@@ -1,23 +1,15 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import LoginPage from './components/Login/Login'
+// import Projects from './components/Project/ProjectTable'
 
-import './App.css';
-
-interface FormData {
-  email: String
-  password: string
-  source: SourceEnum
-  remember: boolean
-  
-}
+// import './App.css';
 
 function App() {
 
-  const [ name, setName ] 
-
   return (
     <div>
-      Hey
+      {/* I would like for the login page to be the first thing that appears when you navigate to it, showing no other information. I need to figure out how to set it up so that upon authentication (and authorization, based on user role) you are directed to the LandingPage where you can view user, project, and asset tables. */}
+      <LoginPage />
     </div>
   );
 }
