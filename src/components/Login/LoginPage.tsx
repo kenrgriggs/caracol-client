@@ -8,11 +8,39 @@ import {
   Box,
 } from "@material-ui/core";
 
+export interface LoginProps {
+    updateToken: any;
+    token: string;
+    adminStatus: boolean;
+}
+ 
+export interface LoginState {
+    email: string;
+    password: string;
+    history: string;
+    errorStatus: boolean;
+}
+
+
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+    constructor(props: LoginProps) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            history: '',
+            errorStatus: false
+        };
+    }
+
+    setEmail = (e: any) => {
+        this.setState({email: e.target.value});
+      }
+    
+    setPassword = (e: any) => {
+        this.setState({password: e.target.value});
+      }
+      
   render() {
     return (
       <Box
@@ -60,16 +88,11 @@ class Login extends Component {
                   Login
                 </Button>
               </Grid>
-              <Grid 
-              item xs={12}
-              align="right"
-              >
                 <Button
                   type="submit"
                 >
                   or Signup
                 </Button>
-              </Grid>
             </Grid>
           </Paper>
         </Grid>
