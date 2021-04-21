@@ -6,33 +6,47 @@ import {
   Paper,
   Typography,
   Box,
-  // InputLabel,
-  // NativeSelect,
+  InputLabel,
+  NativeSelect,
 } from "@material-ui/core";
 
-export interface LoginProps {
+export interface SignupProps {
   name?: any;
   value?: any;
   updateToken: Function;
 }
 
-export interface LoginState {
+export interface SignupState {
+  firstname: string;
+  lastname: string;
   username: string;
+  email: string;
   password: string;
+  role: string;
   errors: {
     username: string;
+    email: string;
     password: string;
   };
 }
 
-class Login extends React.Component<LoginProps, LoginState> {
-  constructor(props: LoginProps) {
+const Regex = RegExp(
+  /^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i
+);
+
+class Signup extends React.Component<SignupProps, SignupState> {
+  constructor(props: SignupProps) {
     super(props);
     const initialState = {
+      firstname: "",
+      lastname: "",
       username: "",
+      email: "",
       password: "",
+      role: "",
       errors: {
         username: "",
+        email: "",
         password: "",
       },
     };
@@ -48,6 +62,9 @@ class Login extends React.Component<LoginProps, LoginState> {
       case "username":
         errors.username =
           value.length < 5 ? "Username must be 5 characters long!" : "";
+        break;
+      case "email":
+        errors.email = Regex.test(value) ? "" : "Email is not valid!";
         break;
       case "password":
         errors.password =
@@ -68,12 +85,15 @@ class Login extends React.Component<LoginProps, LoginState> {
     );
     if (validity === true) {
       console.log("Registering can be done");
-
-      fetch(`http://localhost:3000/user/login`, {
+      fetch(`http://localhost:3000/user/register`, {
         method: "POST",
         body: JSON.stringify({
+          firstname: this.state.firstname,
+          lastname: this.state.lastname,
           username: this.state.username,
+          email: this.state.email,
           password: this.state.password,
+          role: this.state.role,
         }),
         headers: new Headers({
           "Content-Type": "application/json",
@@ -91,10 +111,6 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
   };
 
-  signup = () => {
-    
-  }
-
   render() {
     const { errors } = this.state;
     return (
@@ -110,12 +126,12 @@ class Login extends React.Component<LoginProps, LoginState> {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Typography variant="h5" align="center">
-                    Login
+                    Signup
                   </Typography>
                 </Grid>
                 {/* <form> */}
                 <form onSubmit={this.handleSubmit} noValidate>
-                  {/* <Grid item xs={12}>
+                  <Grid item xs={12}>
                     <TextField
                       onChange={this.handleChange}
                       type="text"
@@ -125,8 +141,8 @@ class Login extends React.Component<LoginProps, LoginState> {
                       variant="outlined"
                       required
                     />
-                  </Grid> */}
-                  {/* <Grid item xs={12}>
+                  </Grid>
+                  <Grid item xs={12}>
                     <TextField
                       onChange={this.handleChange}
                       type="text"
@@ -139,21 +155,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                     {errors.username.length > 0 && (
                       <span style={{ color: "red" }}>{errors.username}</span>
                     )}
-                  </Grid> */}
-                  {/* <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="Email"
-                      fullWidth
-                      name="email"
-                      variant="outlined"
-                      required
-                    />
-                    {errors.email.length > 0 && (
-                      <span style={{ color: "red" }}>{errors.email}</span>
-                    )}
-                  </Grid> */}
+                  </Grid>
                   <Grid item xs={12}>
                     <TextField
                       onChange={this.handleChange}
@@ -171,6 +173,20 @@ class Login extends React.Component<LoginProps, LoginState> {
                   <Grid item xs={12}>
                     <TextField
                       onChange={this.handleChange}
+                      type="text"
+                      placeholder="Email"
+                      fullWidth
+                      name="email"
+                      variant="outlined"
+                      required
+                    />
+                    {errors.email.length > 0 && (
+                      <span style={{ color: "red" }}>{errors.email}</span>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      onChange={this.handleChange}
                       type="password"
                       placeholder="Password"
                       fullWidth
@@ -181,6 +197,20 @@ class Login extends React.Component<LoginProps, LoginState> {
                     {errors.password.length > 0 && (
                       <span style={{ color: "red" }}>{errors.password}</span>
                     )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      onChange={this.handleChange}
+                      type="text"
+                      placeholder="Role"
+                      fullWidth
+                      name="role"
+                      variant="outlined"
+                      required
+                    />
+                    {/* {errors.password.length > 0 && (
+                      <span style={{ color: "red" }}>{errors.password}</span>
+                    )} */}
                   </Grid>
                   {/* <Grid item xs={12}>
                     <InputLabel>Authorization</InputLabel>
@@ -203,13 +233,10 @@ class Login extends React.Component<LoginProps, LoginState> {
                       type="submit"
                       className="button-block"
                     >
-                      Login
+                      Signup
                     </Button>
                   </Grid>
-                  <Button 
-                    type="submit"
-                    onClick={signup}
-                    >or Signup</Button>
+                  <Button type="submit">or Login</Button>
                 </form>
               </Grid>
             </Paper>
@@ -220,4 +247,4 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 }
 
-export default Login;
+export default Signup;
