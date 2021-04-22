@@ -1,13 +1,20 @@
 import React from "react";
-import { TokenClass } from "typescript";
-import LoginPage from "./components/Login/LoginPage";
-import Signup from './components/Login/Signup'
+import {
+  BrowserRouter as Router,
+  // Switch,
+  Route,
+} from "react-router-dom";
+// import { TokenClass } from "typescript";
+import Auth from "./components/Auth/Auth";
+import Login from "./components/Auth/Login";
 
-
+// Delcare type 'AppState'
+// Give attribute token as string
 type AppState = {
-  token: string,
+  token: string;
 };
 
+// No idea what 'React.Component<{}, AppState>' is for.
 class App extends React.Component<{}, AppState> {
   constructor(props: {}) {
     super(props);
@@ -16,22 +23,27 @@ class App extends React.Component<{}, AppState> {
     };
   }
 
-	updateToken = (token: string) => {
-
-		localStorage.setItem('token', token);
-		this.setState({token: token});
-		console.log(token);
-	};
+  updateToken = (token: string) => {
+    // Save token to local storage
+    localStorage.setItem("token", token);
+    // set token to current state
+    this.setState({ token: token });
+    console.log(token);
+  };
 
   render() {
     return (
       <div>
-        {/* I would like for the login page to be the first thing that appears when you navigate to it, showing no other information. I need to figure out how to set it up so that upon authentication (and authorization, based on user role) you are directed to the LandingPage where you can view user, project, and asset tables. */}
-        <div>
-          <LoginPage 
+        <Router>
+          {/* Render login page first */}
+          <Auth updateToken={this.updateToken} />
+          {/* Route to signup on button click */}
+          {/* <Route path='/user/register'>
+          <Signup
           updateToken={this.updateToken}
           />
-        </div>
+          </Route> */}
+        </Router>
       </div>
     );
   }

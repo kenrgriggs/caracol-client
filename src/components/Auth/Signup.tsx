@@ -3,36 +3,47 @@ import {
   Button,
   TextField,
   Grid,
-  Paper,
   Typography,
-  Box,
-  // InputLabel,
-  // NativeSelect,
 } from "@material-ui/core";
 
-export interface LoginProps {
+export interface SignupProps {
   name?: any;
   value?: any;
   updateToken: Function;
 }
 
-export interface LoginState {
+export interface SignupState {
+  firstname: string;
+  lastname: string;
   username: string;
+  email: string;
   password: string;
+  role: string;
   errors: {
     username: string;
+    email: string;
     password: string;
   };
 }
 
-class Login extends React.Component<LoginProps, LoginState> {
-  constructor(props: LoginProps) {
+// This regular expression evaluates whether or not the email is in valid email address format
+const Regex = RegExp(
+  /^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i
+);
+
+class Signup extends React.Component<SignupProps, SignupState> {
+  constructor(props: SignupProps) {
     super(props);
     const initialState = {
+      firstname: "",
+      lastname: "",
       username: "",
+      email: "",
       password: "",
+      role: "",
       errors: {
         username: "",
+        email: "",
         password: "",
       },
     };
@@ -40,6 +51,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  // This function tracks changes to input text fields in the login/signup form
   handleChange = (event: any) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -48,6 +60,9 @@ class Login extends React.Component<LoginProps, LoginState> {
       case "username":
         errors.username =
           value.length < 5 ? "Username must be 5 characters long!" : "";
+        break;
+      case "email":
+        errors.email = Regex.test(value) ? "" : "Email is not valid!";
         break;
       case "password":
         errors.password =
@@ -60,6 +75,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     console.log(this.state.errors);
   };
 
+  // This function submits info entered in the form on button click
   handleSubmit = (event: any) => {
     event.preventDefault();
     let validity = true;
@@ -68,12 +84,15 @@ class Login extends React.Component<LoginProps, LoginState> {
     );
     if (validity === true) {
       console.log("Registering can be done");
-
-      fetch(`http://localhost:3000/user/login`, {
+      fetch(`http://localhost:3000/user/register`, {
         method: "POST",
         body: JSON.stringify({
+          firstname: this.state.firstname,
+          lastname: this.state.lastname,
           username: this.state.username,
+          email: this.state.email,
           password: this.state.password,
+          role: this.state.role,
         }),
         headers: new Headers({
           "Content-Type": "application/json",
@@ -81,41 +100,32 @@ class Login extends React.Component<LoginProps, LoginState> {
       })
         .then((response) => response.json())
         .then((data) => {
-          // this.props.setIsLoggedIn(true);
           this.props.updateToken(data.sessionToken);
           console.log(data);
-          // this.props.updateUsername(data.user.username);
         });
     } else {
       console.log("You cannot be registered!");
     }
   };
 
-  signup = () => {
-    
-  }
-
   render() {
     const { errors } = this.state;
     return (
       <div>
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          minHeight="100vh"
-        >
-          <Grid container item md={4} xs={12} lg={3} spacing={2}>
-            <Paper style={{ padding: "16px" }} elevation={8}>
               <Grid container spacing={2}>
+
+                  {/* TITLE */}
                 <Grid item xs={12}>
                   <Typography variant="h5" align="center">
-                    Login
+                    Signup
                   </Typography>
                 </Grid>
-                {/* <form> */}
+
+                {/* SIGNUP FORM  */}
                 <form onSubmit={this.handleSubmit} noValidate>
-                  {/* <Grid item xs={12}>
+
+                  {/* FIRST NAME FIELD  */}
+                  <Grid item xs={12}>
                     <TextField
                       onChange={this.handleChange}
                       type="text"
@@ -125,8 +135,10 @@ class Login extends React.Component<LoginProps, LoginState> {
                       variant="outlined"
                       required
                     />
-                  </Grid> */}
-                  {/* <Grid item xs={12}>
+                  </Grid>
+
+                  {/* LADST NAME FIELD  */}
+                  <Grid item xs={12}>
                     <TextField
                       onChange={this.handleChange}
                       type="text"
@@ -139,21 +151,9 @@ class Login extends React.Component<LoginProps, LoginState> {
                     {errors.username.length > 0 && (
                       <span style={{ color: "red" }}>{errors.username}</span>
                     )}
-                  </Grid> */}
-                  {/* <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="Email"
-                      fullWidth
-                      name="email"
-                      variant="outlined"
-                      required
-                    />
-                    {errors.email.length > 0 && (
-                      <span style={{ color: "red" }}>{errors.email}</span>
-                    )}
-                  </Grid> */}
+                  </Grid>
+
+                  {/* USERNAME FIELD  */}
                   <Grid item xs={12}>
                     <TextField
                       onChange={this.handleChange}
@@ -168,6 +168,24 @@ class Login extends React.Component<LoginProps, LoginState> {
                       <span style={{ color: "red" }}>{errors.username}</span>
                     )}
                   </Grid>
+
+                  {/* EMAIL FIELD  */}
+                  <Grid item xs={12}>
+                    <TextField
+                      onChange={this.handleChange}
+                      type="text"
+                      placeholder="Email"
+                      fullWidth
+                      name="email"
+                      variant="outlined"
+                      required
+                    />
+                    {errors.email.length > 0 && (
+                      <span style={{ color: "red" }}>{errors.email}</span>
+                    )}
+                  </Grid>
+
+                  {/* PASSWORD FIELD  */}
                   <Grid item xs={12}>
                     <TextField
                       onChange={this.handleChange}
@@ -182,19 +200,21 @@ class Login extends React.Component<LoginProps, LoginState> {
                       <span style={{ color: "red" }}>{errors.password}</span>
                     )}
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <InputLabel>Authorization</InputLabel>
-                    <NativeSelect
+
+                  {/* USER ROLE FIELD  */}
+                  <Grid item xs={12}>
+                    <TextField
                       onChange={this.handleChange}
-                      inputProps={{
-                        name: "Authorization",
-                        id: "Authorization",
-                      }}
-                    >
-                      <option value={10}>Technician</option>
-                      <option value={20}>Manager</option>
-                    </NativeSelect>
-                  </Grid> */}
+                      type="text"
+                      placeholder="Role"
+                      fullWidth
+                      name="role"
+                      variant="outlined"
+                      required
+                    />
+                  </Grid>
+
+                  {/* SUBMIT BUTTON  */}
                   <Grid item xs={12}>
                     <Button
                       fullWidth
@@ -203,21 +223,15 @@ class Login extends React.Component<LoginProps, LoginState> {
                       type="submit"
                       className="button-block"
                     >
-                      Login
+                      Signup
                     </Button>
                   </Grid>
-                  <Button 
-                    type="submit"
-                    onClick={signup}
-                    >or Signup</Button>
                 </form>
+                
               </Grid>
-            </Paper>
-          </Grid>
-        </Box>
       </div>
     );
   }
 }
 
-export default Login;
+export default Signup;
