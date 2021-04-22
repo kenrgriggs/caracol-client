@@ -1,12 +1,9 @@
 import React from "react";
 import {
   BrowserRouter as Router,
-  // Switch,
-  Route,
 } from "react-router-dom";
-// import { TokenClass } from "typescript";
 import Auth from "./components/Auth/Auth";
-import Login from "./components/Auth/Login";
+// import LandingPage from './components/LandingPage'
 
 // Delcare type 'AppState'
 // Give attribute token as string
@@ -37,12 +34,7 @@ class App extends React.Component<{}, AppState> {
         <Router>
           {/* Render login page first */}
           <Auth updateToken={this.updateToken} />
-          {/* Route to signup on button click */}
-          {/* <Route path='/user/register'>
-          <Signup
-          updateToken={this.updateToken}
-          />
-          </Route> */}
+          {/* <LandingPage /> */}
         </Router>
       </div>
     );

@@ -1,24 +1,10 @@
 import React from "react";
-import Signup from "./Signup";
 import {
   Button,
   TextField,
   Grid,
-  Paper,
   Typography,
-  Box,
-
-  // InputLabel,
-  // NativeSelect,
 } from "@material-ui/core";
-
-import {
-  // BrowserRouter as Router,
-  // Switch,
-  // Route,
-  Link,
-  // useParams,
-} from "react-router-dom";
 
 export interface LoginProps {
   name?: any;
@@ -29,7 +15,6 @@ export interface LoginProps {
 export interface LoginState {
   username: string;
   password: string;
-  // showLogin: boolean
   errors: {
     username: string;
     password: string;
@@ -42,7 +27,6 @@ class Login extends React.Component<LoginProps, LoginState> {
     const initialState = {
       username: "",
       password: "",
-      // showLogin: true,
       errors: {
         username: "",
         password: "",
@@ -51,12 +35,6 @@ class Login extends React.Component<LoginProps, LoginState> {
     this.state = initialState;
     this.handleChange = this.handleChange.bind(this);
   }
-
-  //   handleToggle = () => {
-  //     this.setState({
-  //         showLogin: !this.state.showLogin
-  //     })
-  // }
 
   handleChange = (event: any) => {
     event.preventDefault();
@@ -99,10 +77,8 @@ class Login extends React.Component<LoginProps, LoginState> {
       })
         .then((response) => response.json())
         .then((data) => {
-          // this.props.setIsLoggedIn(true);
           this.props.updateToken(data.sessionToken);
           console.log(data);
-          // this.props.updateUsername(data.user.username);
         });
     } else {
       console.log("You cannot be registered!");
@@ -121,47 +97,8 @@ class Login extends React.Component<LoginProps, LoginState> {
               Login
             </Typography>
           </Grid>
-          {/* <form> */}
           <form onSubmit={this.handleSubmit} noValidate>
-            {/* <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="First Name"
-                      fullWidth
-                      name="firstname"
-                      variant="outlined"
-                      required
-                    />
-                  </Grid> */}
-            {/* <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="Last Name"
-                      fullWidth
-                      name="lastname"
-                      variant="outlined"
-                      required
-                    />
-                    {errors.username.length > 0 && (
-                      <span style={{ color: "red" }}>{errors.username}</span>
-                    )}
-                  </Grid> */}
-            {/* <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="Email"
-                      fullWidth
-                      name="email"
-                      variant="outlined"
-                      required
-                    />
-                    {errors.email.length > 0 && (
-                      <span style={{ color: "red" }}>{errors.email}</span>
-                    )}
-                  </Grid> */}
+            
             <Grid item xs={12}>
               <TextField
                 onChange={this.handleChange}
@@ -192,19 +129,6 @@ class Login extends React.Component<LoginProps, LoginState> {
                 <span style={{ color: "red" }}>{errors.password}</span>
               )}
             </Grid>
-            {/* <Grid item xs={12}>
-                    <InputLabel>Authorization</InputLabel>
-                    <NativeSelect
-                      onChange={this.handleChange}
-                      inputProps={{
-                        name: "Authorization",
-                        id: "Authorization",
-                      }}
-                    >
-                      <option value={10}>Technician</option>
-                      <option value={20}>Manager</option>
-                    </NativeSelect>
-                  </Grid> */}
             <Grid item xs={12}>
               <Button
                 fullWidth

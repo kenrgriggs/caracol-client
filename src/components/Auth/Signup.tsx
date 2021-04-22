@@ -159,6 +159,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
                       onChange={this.handleChange}
                       type="text"
                       placeholder="Username"
+                      autoComplete="username"
                       fullWidth
                       name="username"
                       variant="outlined"
@@ -191,6 +192,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
                       onChange={this.handleChange}
                       type="password"
                       placeholder="Password"
+                      autoComplete="current-password"
                       fullWidth
                       name="password"
                       variant="outlined"
@@ -227,7 +229,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
                     </Button>
                   </Grid>
                 </form>
-                
+
               </Grid>
       </div>
     );

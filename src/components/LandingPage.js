@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import AssetTable from './Asset/AssetTable'
+// import AssetTable from './Asset/AssetTable'
 import ProjectTable from './Project/ProjectTable'
-import UserTable from './User/UserTable'
+// import UserTable from './User/UserTable'
 import Navbar from './Navbar'
 
 class LandingPage extends Component {
@@ -22,3 +22,4 @@ class LandingPage extends Component {
 }
  
 export default LandingPage;
+
