@@ -63,7 +63,7 @@ class Login extends React.Component<LoginProps, LoginState> {
       (val) => val.length > 0 && (validity = false)
     );
     if (validity === true) {
-      console.log("Registering can be done");
+      // console.log("Registering can be done");
 
       fetch(`http://localhost:3000/user/login`, {
         method: "POST",
@@ -81,11 +81,11 @@ class Login extends React.Component<LoginProps, LoginState> {
           console.log(data);
         });
     } else {
-      console.log("You cannot be registered!");
+      // console.log("You cannot be registered!");
     }
   };
 
-  signup = () => {};
+  // signup = () => {};
 
   render() {
     const { errors } = this.state;

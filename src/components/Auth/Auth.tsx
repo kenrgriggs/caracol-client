@@ -33,6 +33,7 @@ class Auth extends React.Component<AuthProps, AuthState> {
   render() {
     return (
       <div>
+        {/* <Router> */}
         <Box
           display="flex"
           justifyContent="center"
@@ -55,6 +56,7 @@ class Auth extends React.Component<AuthProps, AuthState> {
             </Paper>
           </Grid>
         </Box>
+        {/* </Router> */}
       </div>
     );
   }

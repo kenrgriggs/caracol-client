@@ -4,6 +4,10 @@ import {
   TextField,
   Grid,
   Typography,
+  // FormControl,
+  // InputLabel,
+  // MenuItem,
+  // Select,
 } from "@material-ui/core";
 
 export interface SignupProps {
@@ -31,6 +35,8 @@ const Regex = RegExp(
   /^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i
 );
 
+
+
 class Signup extends React.Component<SignupProps, SignupState> {
   constructor(props: SignupProps) {
     super(props);
@@ -45,7 +51,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
         username: "",
         email: "",
         password: "",
-      },
+      }, 
     };
     this.state = initialState;
     this.handleChange = this.handleChange.bind(this);
@@ -72,7 +78,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
         break;
     }
     this.setState(Object.assign(this.state, { errors, [name]: value }));
-    console.log(this.state.errors);
+    // console.log(this.state.errors);
   };
 
   // This function submits info entered in the form on button click
@@ -83,7 +89,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
       (val) => val.length > 0 && (validity = false)
     );
     if (validity === true) {
-      console.log("Registering can be done");
+      // console.log("Registering can be done");
       fetch(`http://localhost:3000/user/register`, {
         method: "POST",
         body: JSON.stringify({
@@ -104,7 +110,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
           console.log(data);
         });
     } else {
-      console.log("You cannot be registered!");
+      // console.log("You cannot be registered!");
     }
   };
 
@@ -112,125 +118,146 @@ class Signup extends React.Component<SignupProps, SignupState> {
     const { errors } = this.state;
     return (
       <div>
-              <Grid container spacing={2}>
+        <Grid container spacing={2}>
+          {/* TITLE */}
+          <Grid item xs={12}>
+            <Typography variant="h5" align="center">
+              Signup
+            </Typography>
+          </Grid>
 
-                  {/* TITLE */}
-                <Grid item xs={12}>
-                  <Typography variant="h5" align="center">
-                    Signup
-                  </Typography>
-                </Grid>
+          {/* SIGNUP FORM  */}
+          <form onSubmit={this.handleSubmit} noValidate>
+            {/* FIRST NAME FIELD  */}
+            <Grid item xs={12}>
+              <TextField
+                onChange={this.handleChange}
+                type="text"
+                placeholder="First Name"
+                fullWidth
+                name="firstname"
+                variant="outlined"
+                required
+              />
+            </Grid>
 
-                {/* SIGNUP FORM  */}
-                <form onSubmit={this.handleSubmit} noValidate>
+            {/* LAST NAME FIELD  */}
+            <Grid item xs={12}>
+              <TextField
+                onChange={this.handleChange}
+                type="text"
+                placeholder="Last Name"
+                fullWidth
+                name="lastname"
+                variant="outlined"
+                required
+              />
+              {errors.username.length > 0 && (
+                <span style={{ color: "red" }}>{errors.username}</span>
+              )}
+            </Grid>
 
-                  {/* FIRST NAME FIELD  */}
-                  <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="First Name"
-                      fullWidth
-                      name="firstname"
-                      variant="outlined"
-                      required
-                    />
-                  </Grid>
+            {/* USERNAME FIELD  */}
+            <Grid item xs={12}>
+              <TextField
+                onChange={this.handleChange}
+                type="text"
+                placeholder="Username"
+                autoComplete="username"
+                fullWidth
+                name="username"
+                variant="outlined"
+                required
+              />
+              {errors.username.length > 4 && (
+                <span style={{ color: "red" }}>{errors.username}</span>
+              )}
+            </Grid>
 
-                  {/* LADST NAME FIELD  */}
-                  <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="Last Name"
-                      fullWidth
-                      name="lastname"
-                      variant="outlined"
-                      required
-                    />
-                    {errors.username.length > 0 && (
-                      <span style={{ color: "red" }}>{errors.username}</span>
-                    )}
-                  </Grid>
+            {/* EMAIL FIELD  */}
+            <Grid item xs={12}>
+              <TextField
+                onChange={this.handleChange}
+                type="text"
+                placeholder="Email"
+                autoComplete="email"
+                fullWidth
+                name="email"
+                variant="outlined"
+                required
+              />
+              {errors.email.length > 0 && (
+                <span style={{ color: "red" }}>{errors.email}</span>
+              )}
+            </Grid>
 
-                  {/* USERNAME FIELD  */}
-                  <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="Username"
-                      autoComplete="username"
-                      fullWidth
-                      name="username"
-                      variant="outlined"
-                      required
-                    />
-                    {errors.username.length > 4 && (
-                      <span style={{ color: "red" }}>{errors.username}</span>
-                    )}
-                  </Grid>
+            {/* PASSWORD FIELD  */}
+            <Grid item xs={12}>
+              <TextField
+                onChange={this.handleChange}
+                type="password"
+                placeholder="Password"
+                autoComplete="current-password"
+                fullWidth
+                name="password"
+                variant="outlined"
+                required
+              />
+              {errors.password.length > 0 && (
+                <span style={{ color: "red" }}>{errors.password}</span>
+              )}
+            </Grid>
 
-                  {/* EMAIL FIELD  */}
-                  <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="Email"
-                      fullWidth
-                      name="email"
-                      variant="outlined"
-                      required
-                    />
-                    {errors.email.length > 0 && (
-                      <span style={{ color: "red" }}>{errors.email}</span>
-                    )}
-                  </Grid>
+            {/* USER ROLE FIELD  */}
 
-                  {/* PASSWORD FIELD  */}
-                  <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="password"
-                      placeholder="Password"
-                      autoComplete="current-password"
-                      fullWidth
-                      name="password"
-                      variant="outlined"
-                      required
-                    />
-                    {errors.password.length > 0 && (
-                      <span style={{ color: "red" }}>{errors.password}</span>
-                    )}
-                  </Grid>
 
-                  {/* USER ROLE FIELD  */}
-                  <Grid item xs={12}>
-                    <TextField
-                      onChange={this.handleChange}
-                      type="text"
-                      placeholder="Role"
-                      fullWidth
-                      name="role"
-                      variant="outlined"
-                      required
-                    />
-                  </Grid>
+            {/* <FormControl variant="outlined">
+              <InputLabel id="demo-simple-select-outlined-label">
+                Role
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                onChange={this.handleChange}
+                label="Role"
+              >
+                <MenuItem value=" ">
+                  <em></em>
+                </MenuItem>
+                <MenuItem value={10}>Admin</MenuItem>
+                <MenuItem value={20}>Technician</MenuItem>
+                <MenuItem value={30}>Manager</MenuItem>
+              </Select>
+            </FormControl> */}
 
-                  {/* SUBMIT BUTTON  */}
-                  <Grid item xs={12}>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      className="button-block"
-                    >
-                      Signup
-                    </Button>
-                  </Grid>
-                </form>
 
-              </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                onChange={this.handleChange}
+                type="text"
+                placeholder="Role"
+                fullWidth
+                name="role"
+                variant="outlined"
+                required
+              />
+            </Grid>
+
+            {/* SUBMIT BUTTON  */}
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                type="submit"
+                className="button-block"
+              >
+                Signup
+              </Button>
+            </Grid>
+          </form>
+        </Grid>
       </div>
     );
   }
