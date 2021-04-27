@@ -1,3 +1,5 @@
+// https://material-ui.com/components/app-bar/
+
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -87,7 +89,7 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
+  const handleProfileMenuOpen = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -100,7 +102,7 @@ export default function PrimarySearchAppBar() {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
+  const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
@@ -163,8 +165,9 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ background: '#2E3B55'}}>
         <Toolbar>
+          
           <IconButton
             edge="start"
             className={classes.menuButton}

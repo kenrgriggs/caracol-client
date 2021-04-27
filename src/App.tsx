@@ -1,13 +1,13 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Switch,
-  Route,
-  // Link,
-} from "react-router-dom";
+// import {
+//   BrowserRouter as Router,
+//   Redirect,
+//   Switch,
+//   Route,
+//   Link,
+// } from "react-router-dom";
 import Auth from "./components/Auth/Auth";
-import Login from "./components/Auth/Login";
+// import Login from "./components/Auth/Login";
 // import Signup from './components/Auth/Signup'
 import LandingPage from "./components/LandingPage";
 // import Protector from './components/Auth/Protector'
@@ -16,7 +16,7 @@ import LandingPage from "./components/LandingPage";
 // Give attribute token as string
 type AppState = {
   // isLoggedIn: string,
-  user: {};
+  // user: {};
   token: string;
   isAdmin: boolean;
 };
@@ -27,7 +27,7 @@ class App extends React.Component<{}, AppState> {
     super(props);
     this.state = {
       // isLoggedIn: "NOT_LOGGED_IN",
-      user: {},
+      // user: {},
       token: "",
       isAdmin: false,
     };
