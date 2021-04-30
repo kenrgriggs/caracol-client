@@ -5,7 +5,9 @@ import Navbar from "./Navbar";
 class LandingPage extends Component {
   constructor(props: {} | Readonly<{}>) {
     super(props);
-    this.state = {};
+    this.state = {
+      
+    };
   }
 
   render() {

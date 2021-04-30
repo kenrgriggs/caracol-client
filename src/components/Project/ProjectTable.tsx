@@ -1,12 +1,24 @@
 //  This page copied directly from https://material-ui.com/components/tables/
 
 import * as React from "react";
-import { DataGrid, GridColDef } from "@material-ui/data-grid";
+import { DataGrid, GridColDef, GridEditCellPropsParams } from "@material-ui/data-grid";
 
-export interface ProjectProps {}
+export interface ProjectProps {
+
+}
 
 export interface ProjectState {
   projects: any;
+  name: string;
+  category: string;
+  planned: boolean;
+  est_startdate: string;
+  startdate: string;
+  est_enddate: string;
+  enddate: string;
+  description: string;
+  notes: string;
+  hours: number;
 }
 
 const columns: GridColDef[] = [
@@ -98,6 +110,16 @@ class Project extends React.Component<ProjectProps, ProjectState> {
     super(props);
     this.state = {
       projects: [],
+      name: "",
+      category: "",
+      planned: true,
+      est_startdate: "",
+      startdate: "",
+      est_enddate: "",
+      enddate: "",
+      description: "",
+      notes: "",
+      hours: 0,
     };
   }
 
@@ -111,9 +133,30 @@ class Project extends React.Component<ProjectProps, ProjectState> {
       .then((response) => response.json())
       .then((projects) => {
         this.setState({ projects: projects });
-        // console.log(this.state.projects);
       })
       .catch((error) => console.error("Error:", error));
+  };
+
+  ProjectUpdate = (changedValue: GridEditCellPropsParams) => {
+    fetch(`http://localhost:3000/project/${changedValue.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        "field": changedValue.field,
+        "value": changedValue.props.value
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+    })
+    .then((response) => response.json())
+    .then((updatedProject) => {
+      this.setState(prevState => ({
+        projects: prevState.projects.map(
+          (currentProject: { id: number; }) => currentProject.id === updatedProject.id ? updatedProject : currentProject
+        )
+      }))
+    })
+    .catch((error) => console.error("Error:", error));
   };
 
   async componentDidMount() {
@@ -122,12 +165,17 @@ class Project extends React.Component<ProjectProps, ProjectState> {
 
   DataTable = (rows: Array<Object>) => {
     return (
-      <div style={{ height: 850, width: "100%" }}>
+      <div style={{ width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={14}
           checkboxSelection
+          autoHeight={true}
+          // autoPageSize={true}
+          onEditCellChangeCommitted={this.ProjectUpdate}
+          onRowSelected={(GridRowSelectedParams) => {
+          }}
         />
       </div>
     );
