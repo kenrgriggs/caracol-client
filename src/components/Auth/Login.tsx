@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 
+// IM NOT SURE IF 'name?' AND 'value?' ARE NECESSARY??? 
 export interface LoginProps {
   name?: any;
   value?: any;
@@ -20,6 +21,7 @@ export interface LoginState {
     password: string;
   };
 }
+
 
 class Login extends React.Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {

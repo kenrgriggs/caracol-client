@@ -16,14 +16,17 @@ export interface AuthState {
   showLogin: boolean;
 }
 
+// PULLS IN LOGIN AND SIGNUP AND HANDLES AUTHORIZATION 
 class Auth extends React.Component<AuthProps, AuthState> {
   constructor(props: AuthProps) {
     super(props);
+  // SETTING THE STATE
     this.state = {
       showLogin: true,
     };
   }
 
+  // TOGGLES BETWEEN LOGIN AND SIGNUP
   handleToggle = () => {
     this.setState({
       showLogin: !this.state.showLogin,
@@ -33,7 +36,6 @@ class Auth extends React.Component<AuthProps, AuthState> {
   render() {
     return (
       <div>
-        {/* <Router> */}
         <Box
           display="flex"
           justifyContent="center"
@@ -56,7 +58,6 @@ class Auth extends React.Component<AuthProps, AuthState> {
             </Paper>
           </Grid>
         </Box>
-        {/* </Router> */}
       </div>
     );
   }
