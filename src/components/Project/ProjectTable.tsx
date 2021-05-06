@@ -47,77 +47,77 @@ const columns: GridColDef[] = [
     field: "name",
     headerName: "Name",
     type: "string",
-    width: 150,
+    flex: .5,
     editable: true,
   },
   {
     field: "planned",
     headerName: "Planned",
     type: "boolean",
-    width: 150,
+    width: 105,
     editable: true,
   },
   {
     field: "category",
     headerName: "Category",
     type: "string",
-    width: 150,
+    width: 110,
     editable: true,
   },
-  {
-    field: "est_startdate",
-    headerName: "Estimated Start Date",
-    type: "date",
-    width: 200,
-    editable: true,
-  },
+  // {
+  //   field: "est_startdate",
+  //   headerName: "Est Start",
+  //   type: "date",
+  //   width: 108,
+  //   editable: true,
+  // },
   {
     field: "startdate",
     headerName: "Start Date",
     type: "date",
-    width: 150,
+    width: 121,
     editable: true,
   },
-  {
-    field: "est_enddate",
-    headerName: "Estimated Finish Date",
-    type: "number",
-    width: 200,
-    editable: true,
-  },
+  // {
+  //   field: "est_enddate",
+  //   headerName: "Est. Complete",
+  //   type: "number",
+  //   width: 142,
+  //   editable: true,
+  // },
   {
     field: "enddate",
     headerName: "Finish Date",
-    type: "number",
-    width: 150,
+    type: "date",
+    width: 125,
     editable: true,
   },
-  {
-    field: "description",
-    headerName: "Description",
-    type: "number",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "notes",
-    headerName: "Notes",
-    type: "number",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "hours",
-    headerName: "Hours Spent",
-    type: "number",
-    width: 150,
-    editable: true,
-  },
+  // {
+    //   field: "notes",
+    //   headerName: "Notes",
+    //   type: "number",
+    //   flex: 1,
+    //   editable: true,
+    // },
+    {
+      field: "hours",
+      headerName: "Hours Spent",
+      type: "number",
+      width: 132,
+      editable: true,
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      type: "string",
+      flex: 1,
+      editable: true,
+    },
   {
     field: "created_by",
     headerName: "Created By",
     type: "string",
-    width: 150,
+    width: 132,
   },
 ];
 
@@ -174,7 +174,6 @@ class Project extends React.Component<ProjectProps, ProjectState> {
       .then((createdProject) => {
         console.log(createdProject)
         this.setState((prevState) => { 
-          
           prevState.projects.push(createdProject)
           return {projects: prevState.projects}
         });
@@ -188,6 +187,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
+        "Authorization": this.state.token
       }),
     })
       .then((response) => response.json())
@@ -207,6 +207,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
       }),
       headers: new Headers({
         "Content-Type": "application/json",
+        "Authorization": this.state.token
       }),
     })
       .then((response) => response.json())
@@ -230,6 +231,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
         method: "DELETE",
         headers: new Headers({
           "Content-Type": "application/json",
+          "Authorization": this.state.token
         }),
       })
         .then((response) => response.json())
@@ -242,7 +244,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
         })
         .catch((error) => console.error("Error:", error));
     });
-    this.forceUpdate();
+    // this.forceUpdate();
   };
 
   // CALLS 'ReadProjects' FUNCTION AND FORCES EACH PROJECT TO APPEAR
