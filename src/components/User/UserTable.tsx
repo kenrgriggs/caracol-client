@@ -24,24 +24,24 @@ const useStyles1 = makeStyles((theme) => ({
   },
 }));
 
-function TablePaginationActions(props) {
+function TablePaginationActions(props: { count: any; page: any; rowsPerPage: any; onChangePage: any; }) {
   const classes = useStyles1();
   const theme = useTheme();
   const { count, page, rowsPerPage, onChangePage } = props;
 
-  const handleFirstPageButtonClick = (event) => {
+  const handleFirstPageButtonClick = (event: any) => {
     onChangePage(event, 0);
   };
 
-  const handleBackButtonClick = (event) => {
+  const handleBackButtonClick = (event: any) => {
     onChangePage(event, page - 1);
   };
 
-  const handleNextButtonClick = (event) => {
+  const handleNextButtonClick = (event: any) => {
     onChangePage(event, page + 1);
   };
 
-  const handleLastPageButtonClick = (event) => {
+  const handleLastPageButtonClick = (event: any) => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
@@ -82,7 +82,7 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
+function createData(name: string, calories: number, fat: number) {
   return { name, calories, fat };
 }
 
@@ -115,11 +115,11 @@ export default function CustomPaginationActionsTable() {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: any, newPage: React.SetStateAction<number>) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: { target: { value: string; }; }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };

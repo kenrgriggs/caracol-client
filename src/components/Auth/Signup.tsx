@@ -1,3 +1,5 @@
+// SIGNUP COPIED DIRECTLY FROM LOGIN. OR MAYBE THE OTHER WAY AROUND...?
+
 import React from "react";
 import {
   Button,
@@ -34,8 +36,6 @@ export interface SignupState {
 const Regex = RegExp(
   /^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i
 );
-
-
 
 class Signup extends React.Component<SignupProps, SignupState> {
   constructor(props: SignupProps) {

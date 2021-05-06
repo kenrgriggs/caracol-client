@@ -40,6 +40,7 @@ class App extends React.Component<{}, AppState> {
     this.setState({ token: token });
     this.setState({ isAdmin: updateAdmin });
     console.log(token);
+    console.log(updateAdmin)
   };
 
   requireLogin = (to: any, from: any, next: any) => {
