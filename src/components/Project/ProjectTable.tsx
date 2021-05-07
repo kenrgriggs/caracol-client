@@ -16,7 +16,7 @@ import ProjectModal from "./ProjectModal";
 
 // NO PROPS ARE PASSED
 export interface ProjectProps {
-
+  searchText: string
 }
 
 // CREATE INTERFACE FOR STATE ATTRIBUTES
@@ -252,6 +252,11 @@ class Project extends React.Component<ProjectProps, ProjectState> {
     this.ReadProjects();
   }
 
+// Search Projects Function
+// ProjectSearch = ( event: any) + {
+// 
+// }
+
   // OBJECT TO CONTAIN ALL THE SHIT I WANNA RENDER
   DataTable = (rows: Array<Object>) => {
     return (
@@ -284,6 +289,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
           checkboxSelection
           autoHeight={true}
           onEditCellChangeCommitted={this.UpdateProjects}
+          key={this.state.projects}
           onSelectionModelChange={(GridSelectionModelChangeParams) => {
             console.log(GridSelectionModelChangeParams);
             this.setState({
@@ -297,7 +303,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
 
   // DISPLAYS 'DateTable' OBJECT
   render() {
-    return <div>{this.DataTable(this.state.projects)}</div>;
+    return <div>{this.DataTable(this.state.projects.filter((project: any) => project.name.toLowerCase().includes(this.props.searchText)))}</div>;
   }
 }
 

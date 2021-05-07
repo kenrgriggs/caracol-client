@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
@@ -78,8 +78,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface PrimarySearchProps {
+  handleSearch: (arg: string) => void
+}
+
 // SEARCH FUNCTION NOT WORKING YET
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props: PrimarySearchProps) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -123,16 +127,16 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static" style={{ background: '#2196f3'}}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography className={classes.title} variant="h6" noWrap>
-            Admin
+            Caracol
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -145,6 +149,7 @@ export default function PrimarySearchAppBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>): void => props.handleSearch(e.target.value)}
             />
           </div>
 
@@ -157,6 +162,7 @@ export default function PrimarySearchAppBar() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+              
             >
               <AccountCircle />
             </IconButton>

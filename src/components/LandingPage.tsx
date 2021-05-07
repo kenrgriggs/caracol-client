@@ -3,20 +3,40 @@
 import React, { Component } from "react";
 import ProjectTable from "./Project/ProjectTable";
 import Navbar from "./Navbar";
+import NavbarAdmin from "./NavbarAdmin";
+// import ChangeEvent from "react"
 
-class LandingPage extends Component {
-  constructor(props: {} | Readonly<{}>) {
+export interface LandingPageState {
+  searchText: string;
+}
+
+export interface LandingPageProps {
+  isAdmin: boolean;
+};
+
+class LandingPage extends Component<LandingPageProps, LandingPageState> {
+  constructor(props: LandingPageProps) {
     super(props);
     this.state = {
-      
+      searchText: ""
     };
+    this.handleSearch = this.handleSearch.bind(this)
+  }
+
+  handleSearch(value: string) {
+      console.log(value)
+      this.setState({searchText: value})
   }
 
   render() {
     return (
       <div>
-        <Navbar />
-        <ProjectTable />
+         {this.props.isAdmin ? (
+           <NavbarAdmin  />
+           ) : (
+             <Navbar handleSearch={this.handleSearch}/>
+             )}
+        <ProjectTable searchText={this.state.searchText} key={this.state.searchText}/>
       </div>
     );
   }
