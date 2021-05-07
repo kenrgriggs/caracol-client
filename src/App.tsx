@@ -74,7 +74,7 @@ class App extends React.Component<{}, AppState> {
     return (
       <div>
               {this.loggedIn() ? (
-                <LandingPage />
+                <LandingPage isAdmin={this.state.isAdmin} />
               ) : (
                 <Auth updateToken={this.updateToken} />
               )}
