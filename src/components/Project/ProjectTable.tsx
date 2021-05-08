@@ -6,17 +6,18 @@ import {
   GridColDef,
   GridEditCellPropsParams,
   GridRowId,
+  GridToolbarContainer,
+  GridToolbarExport,
 } from "@material-ui/data-grid";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import IconButton from "@material-ui/core/IconButton";
-import Paper from "@material-ui/core/Paper";
 
 import ProjectModal from "./ProjectModal";
 
 // NO PROPS ARE PASSED
 export interface ProjectProps {
-  searchText: string
+  searchText: string;
 }
 
 // CREATE INTERFACE FOR STATE ATTRIBUTES
@@ -47,7 +48,7 @@ const columns: GridColDef[] = [
     field: "name",
     headerName: "Name",
     type: "string",
-    flex: .5,
+    flex: 0.5,
     editable: true,
   },
   {
@@ -93,26 +94,26 @@ const columns: GridColDef[] = [
     editable: true,
   },
   // {
-    //   field: "notes",
-    //   headerName: "Notes",
-    //   type: "number",
-    //   flex: 1,
-    //   editable: true,
-    // },
-    {
-      field: "hours",
-      headerName: "Hours Spent",
-      type: "number",
-      width: 132,
-      editable: true,
-    },
-    {
-      field: "description",
-      headerName: "Description",
-      type: "string",
-      flex: 1,
-      editable: true,
-    },
+  //   field: "notes",
+  //   headerName: "Notes",
+  //   type: "number",
+  //   flex: 1,
+  //   editable: true,
+  // },
+  {
+    field: "hours",
+    headerName: "Hours Spent",
+    type: "number",
+    width: 132,
+    editable: true,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    type: "string",
+    flex: 1,
+    editable: true,
+  },
   {
     field: "created_by",
     headerName: "Created By",
@@ -123,7 +124,6 @@ const columns: GridColDef[] = [
 
 // PROJECT CLASS COMPONENT IS WHERE ALL THE CRUD HEAVY LIFTING IS DONE
 class Project extends React.Component<ProjectProps, ProjectState> {
-  
   constructor(props: ProjectProps) {
     super(props);
 
@@ -141,8 +141,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
       notes: "",
       hours: 0,
       selectedItems: [],
-      token: localStorage.getItem("token")
-
+      token: localStorage.getItem("token"),
     };
   }
 
@@ -167,15 +166,15 @@ class Project extends React.Component<ProjectProps, ProjectState> {
       }),
       headers: new Headers({
         "Content-Type": "application/json",
-        "Authorization": this.state.token
+        Authorization: this.state.token,
       }),
     })
       .then((response) => response.json())
       .then((createdProject) => {
-        console.log(createdProject)
-        this.setState((prevState) => { 
-          prevState.projects.push(createdProject)
-          return {projects: prevState.projects}
+        console.log(createdProject);
+        this.setState((prevState) => {
+          prevState.projects.push(createdProject);
+          return { projects: prevState.projects };
         });
       })
       .catch((error) => console.error("Error:", error));
@@ -187,7 +186,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
-        "Authorization": this.state.token
+        Authorization: this.state.token,
       }),
     })
       .then((response) => response.json())
@@ -207,7 +206,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
       }),
       headers: new Headers({
         "Content-Type": "application/json",
-        "Authorization": this.state.token
+        Authorization: this.state.token,
       }),
     })
       .then((response) => response.json())
@@ -231,7 +230,7 @@ class Project extends React.Component<ProjectProps, ProjectState> {
         method: "DELETE",
         headers: new Headers({
           "Content-Type": "application/json",
-          "Authorization": this.state.token
+          Authorization: this.state.token,
         }),
       })
         .then((response) => response.json())
@@ -252,35 +251,44 @@ class Project extends React.Component<ProjectProps, ProjectState> {
     this.ReadProjects();
   }
 
-// Search Projects Function
-// ProjectSearch = ( event: any) + {
-// 
-// }
+  /* TOOLBAR ABOVE PROJECT TABLE  */
+  CustomToolbar = () => {
+    return (
+      <GridToolbarContainer>
+
+        {/* CREATE NEW PROJECT */}
+        <ProjectModal submitOnClick={this.CreateProjects} />
+
+        {/* COPY PROJECT  */}
+        <IconButton edge="end" style={{ color: "#2196f3" }}>
+          <FileCopyIcon />
+        </IconButton>
+
+        {/* DELETE PROJECT  */}
+        <IconButton
+          edge="end"
+          style={{ color: "#2196f3" }}
+          onClick={this.DeleteProjects}
+        >
+          <DeleteIcon />
+        </IconButton>
+
+        {/* EXPORT TO CSV  */}
+        <GridToolbarExport />
+
+      </GridToolbarContainer>
+    );
+  };
+
+  // Search Projects Function
+  // ProjectSearch = ( event: any) + {
+  //
+  // }
 
   // OBJECT TO CONTAIN ALL THE SHIT I WANNA RENDER
   DataTable = (rows: Array<Object>) => {
     return (
       <div style={{ width: "100%" }}>
-        {/* TOOLBAR ABOVE PROJECT TABLE  */}
-        <Paper>
-          {/* CREATE NEW PROJECT */}
-          <ProjectModal submitOnClick={this.CreateProjects} />
-
-          {/* COPY PROJECT  */}
-          <IconButton edge="end" style={{ color: "#2196f3" }}>
-            <FileCopyIcon />
-          </IconButton>
-
-          {/* DELETE PROJECT  */}
-          <IconButton
-            edge="end"
-            style={{ color: "#2196f3" }}
-            onClick={this.DeleteProjects}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Paper>
-
         {/* DATAGRID DEFINES HOW PROJECT DATA WILL BE DISPLAYED  */}
         <DataGrid
           rows={rows}
@@ -290,6 +298,9 @@ class Project extends React.Component<ProjectProps, ProjectState> {
           autoHeight={true}
           onEditCellChangeCommitted={this.UpdateProjects}
           key={this.state.projects}
+          components={{
+            Toolbar: this.CustomToolbar,
+          }}
           onSelectionModelChange={(GridSelectionModelChangeParams) => {
             console.log(GridSelectionModelChangeParams);
             this.setState({
@@ -303,7 +314,15 @@ class Project extends React.Component<ProjectProps, ProjectState> {
 
   // DISPLAYS 'DateTable' OBJECT
   render() {
-    return <div>{this.DataTable(this.state.projects.filter((project: any) => project.name.toLowerCase().includes(this.props.searchText)))}</div>;
+    return (
+      <div>
+        {this.DataTable(
+          this.state.projects.filter((project: any) =>
+            project.name.toLowerCase().includes(this.props.searchText)
+          )
+        )}
+      </div>
+    );
   }
 }
 
